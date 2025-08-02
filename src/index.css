@@ -1,0 +1,841 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Enhanced CSS Variables for smooth transitions */
+:root {
+  --transition-fast: 0.1s ease-out;
+  --transition-normal: 0.2s ease-out;
+  --transition-slow: 0.3s ease-out;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+/* Mobile performance optimizations */
+@media (max-width: 768px) {
+  /* Enable smooth animations on mobile with hardware acceleration */
+  .mobile-animate {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+  }
+  
+  /* Optimized mobile animations */
+  .mobile-slide-up {
+    animation: mobileSlideUp 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .mobile-fade-in {
+    animation: mobileFadeIn 0.25s ease-out;
+  }
+  
+  .mobile-scale-in {
+    animation: mobileScaleIn 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  
+  /* Mobile-optimized hover effects */
+  .mobile-hover:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease-out;
+  }
+  
+  /* Optimize scrolling performance */
+  .scrollbar-thin {
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Optimize images */
+  img {
+    image-rendering: optimizeQuality;
+    -webkit-transform: translateZ(0);
+  }
+  
+  /* Essential transitions only */
+  .essential-transition {
+    transition: transform 0.15s ease-out, background-color 0.15s ease-out;
+  }
+}
+
+/* Loader Styles */
+.loader {
+  display: block;
+  --height-of-loader: 2px;
+  --loader-color: #FFFFFF;
+  width: 150px;
+  height: var(--height-of-loader);
+  border-radius: 30px;
+  background-color: rgba(0,0,0,0.2);
+  position: relative;
+}
+
+.loader::before {
+  content: "";
+  position: absolute;
+  background: var(--loader-color);
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  border-radius: 30px;
+  animation: moving 0.5s ease-in-out infinite;
+}
+
+@keyframes moving {
+  50% {
+    width: 100%;
+  }
+
+  100% {
+    width: 0;
+    right: 0;
+    left: unset;
+  }
+}
+
+/* Marquee animation for long text */
+@keyframes marquee {
+  0% { 
+    transform: translateX(0%); 
+  }
+  100% { 
+    transform: translateX(-100%); 
+  }
+}
+
+.animate-marquee {
+  white-space: nowrap;
+  overflow: hidden;
+  animation: marquee 12s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Smooth scrolling improvements */
+* {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced scrollbar styles */
+@layer components {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #4b5563 #1f2937;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    @apply bg-gray-900;
+    border-radius: 3px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply bg-gray-600;
+    border-radius: 3px;
+    transition: background-color var(--transition-fast);
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-500;
+  }
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  
+  body {
+    @apply bg-black text-white;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    padding-bottom: env(safe-area-inset-bottom, 65px);
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+  
+  /* Improved focus styles */
+  *:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@layer utilities {
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .mobile-hidden {
+    @apply hidden md:block;
+  }
+  
+  .mobile-full {
+    @apply w-full p-4 md:p-6;
+  }
+  
+  /* Safe area utilities for mobile */
+  .safe-top {
+    padding-top: env(safe-area-inset-top, 0.75rem);
+  }
+  
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0.75rem);
+  }
+  
+  .safe-left {
+    padding-left: env(safe-area-inset-left, 0.75rem);
+  }
+  
+  .safe-right {
+    padding-right: env(safe-area-inset-right, 0.75rem);
+  }
+  
+  /* Enhanced hover effects */
+  .hover-lift {
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  /* Glass morphism effect */
+  .glass {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Improved button styles */
+  .btn-primary {
+    @apply bg-white text-black px-4 py-2 rounded-full font-medium transition-all duration-200 hover:bg-gray-200 hover:scale-105 active:scale-95 shadow-lg;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-800 text-white px-4 py-2 rounded-full font-medium transition-all duration-200 hover:bg-gray-700 hover:scale-105 active:scale-95 border border-gray-700;
+  }
+  
+  /* Loading states */
+  .loading-shimmer {
+    background: linear-gradient(90deg, #1f2937 25%, #374151 50%, #1f2937 75%);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+  
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+}
+
+@keyframes loading {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(0%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Custom range slider */
+@layer components {
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    height: 4px;
+    transition: all var(--transition-fast);
+  }
+
+  input[type="range"]::-webkit-slider-track {
+    @apply bg-gray-700;
+    height: 4px;
+    border-radius: 2px;
+    transition: background-color var(--transition-fast);
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    @apply bg-white;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  input[type="range"]::-moz-range-track {
+    @apply bg-gray-700;
+    height: 4px;
+    border-radius: 2px;
+    border: none;
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    @apply bg-white;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+  }
+
+  input[type="range"]::-moz-range-thumb:hover {
+    transform: scale(1.15);
+  }
+}
+
+/* Mobile-specific styles */
+@media (max-width: 767px) and (orientation: portrait) {
+  /* Ensure mobile app takes full height */
+  html, body, #root {
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+  }
+  
+  /* Hide scrollbars on mobile */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Smooth scrolling for mobile */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Fix mobile scrolling */
+  .mobile-scroll {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    scroll-behavior: smooth;
+    /* Force hardware acceleration */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    will-change: scroll-position;
+    /* Better momentum scrolling */
+    -webkit-overflow-scrolling: touch;
+    overflow-scrolling: touch;
+  }
+  
+  /* Prevent body scroll when modal is open */
+  .modal-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+  }
+  
+  /* Optimize touch targets */
+  button, a, input, textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Prevent zoom on input focus */
+  input, textarea, select {
+    font-size: 16px;
+  }
+  
+  /* Mobile-optimized animations */
+  .mobile-animate {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+  }
+  
+  /* Reduce motion for better performance */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  
+  /* Improve touch responsiveness */
+  .mobile-hover:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease-out;
+  }
+  
+  /* Better button feedback */
+  button:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease-out;
+  }
+  
+  /* Optimize scrollable areas */
+  .mobile-scroll {
+    /* Hide scrollbars */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .mobile-scroll::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Enhanced Animation classes */
+.animate-fade-in {
+  animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-slide-up {
+  animation: slideUp 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-slide-down {
+  animation: slideDown 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-slide-left {
+  animation: slideLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-slide-right {
+  animation: slideRight 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animation-delay-100 {
+  animation-delay: 0.1s;
+}
+
+.animation-delay-200 {
+  animation-delay: 0.2s;
+}
+
+.animation-delay-300 {
+  animation-delay: 0.3s;
+}
+
+.animation-delay-400 {
+  animation-delay: 0.4s;
+}
+
+.animation-delay-500 {
+  animation-delay: 0.5s;
+}
+
+.animation-delay-600 {
+  animation-delay: 0.6s;
+}
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+  }
+  to { 
+    opacity: 1; 
+  }
+}
+
+@keyframes slideUp {
+  from { 
+    transform: translateY(24px); 
+    opacity: 0; 
+  }
+  to { 
+    transform: translateY(0); 
+    opacity: 1; 
+  }
+}
+
+@keyframes slideDown {
+  from { 
+    transform: translateY(-16px); 
+    opacity: 0; 
+  }
+  to { 
+    transform: translateY(0); 
+    opacity: 1; 
+  }
+}
+
+@keyframes slideLeft {
+  from { 
+    transform: translateX(24px); 
+    opacity: 0; 
+  }
+  to { 
+    transform: translateX(0); 
+    opacity: 1; 
+  }
+}
+
+@keyframes slideRight {
+  from { 
+    transform: translateX(-24px); 
+    opacity: 0; 
+  }
+  to { 
+    transform: translateX(0); 
+    opacity: 1; 
+  }
+}
+
+@keyframes scaleIn {
+  from { 
+    transform: scale(0.9); 
+    opacity: 0; 
+  }
+  to { 
+    transform: scale(1); 
+    opacity: 1; 
+  }
+}
+
+/* Mobile-optimized animations */
+@keyframes mobileSlideUp {
+  from { 
+    transform: translate3d(0, 20px, 0); 
+    opacity: 0; 
+  }
+  to { 
+    transform: translate3d(0, 0, 0); 
+    opacity: 1; 
+  }
+}
+
+@keyframes mobileFadeIn {
+  from { 
+    opacity: 0; 
+  }
+  to { 
+    opacity: 1; 
+  }
+}
+
+@keyframes mobileScaleIn {
+  from { 
+    transform: scale3d(0.95, 0.95, 1); 
+    opacity: 0; 
+  }
+  to { 
+    transform: scale3d(1, 1, 1); 
+    opacity: 1; 
+  }
+}
+
+/* Enhanced smooth transitions */
+* {
+  transition: color var(--transition-fast), 
+              background-color var(--transition-fast), 
+              border-color var(--transition-fast), 
+              opacity var(--transition-fast);
+}
+
+/* Enhanced button hover effects */
+button {
+  transition: all var(--transition-normal);
+  will-change: transform;
+}
+
+button:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+button:not(:disabled):active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Enhanced card hover effects */
+.group {
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.group:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Loading spinner */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+  will-change: transform;
+}
+
+/* Enhanced pulse animation */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Custom checkbox */
+@layer components {
+  input[type="checkbox"] {
+    @apply w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 rounded focus:ring-blue-500 focus:ring-2;
+    transition: all var(--transition-fast);
+  }
+}
+
+/* Selection styles */
+@layer base {
+  ::selection {
+    @apply bg-blue-600 text-white;
+  }
+
+  /* Placeholder styles */
+  ::placeholder {
+    @apply text-gray-500;
+  }
+}
+
+/* Hide scrollbar for certain elements */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Mobile-specific improvements */
+@media (max-width: 768px) {
+  .animate-slide-up {
+    animation-duration: 0.5s;
+  }
+  
+  .animate-fade-in {
+    animation-duration: 0.4s;
+  }
+  
+  /* Reduce motion for better performance on mobile */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  @layer utilities {
+    .bg-gray-900 {
+      @apply bg-black;
+    }
+    
+    .bg-gray-800 {
+      @apply bg-gray-900;
+    }
+    
+    .border-gray-700 {
+      @apply border-gray-500;
+    }
+  }
+}
+
+/* AI Chat Message Box Styles */
+.messageBox {
+  width: fit-content;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2d2d2d;
+  padding: 0 15px;
+  border-radius: 10px;
+  border: 1px solid rgb(63, 63, 63);
+  margin: 0 auto;
+  min-width: 300px;
+  transition: all var(--transition-normal);
+}
+
+.messageBox:focus-within {
+  border: 1px solid rgb(110, 110, 110);
+  box-shadow: 0 0 0 3px rgba(110, 110, 110, 0.1);
+}
+
+.fileUploadWrapper {
+  width: fit-content;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#file {
+  display: none;
+}
+
+.fileUploadWrapper label {
+  cursor: pointer;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.fileUploadWrapper label svg {
+  height: 18px;
+}
+
+.fileUploadWrapper label svg path {
+  transition: all var(--transition-normal);
+}
+
+.fileUploadWrapper label svg circle {
+  transition: all var(--transition-normal);
+}
+
+.fileUploadWrapper label:hover svg path {
+  stroke: #fff;
+}
+
+.fileUploadWrapper label:hover svg circle {
+  stroke: #fff;
+  fill: #3c3c3c;
+}
+
+.fileUploadWrapper label:hover .tooltip {
+  display: block;
+  opacity: 1;
+}
+
+.tooltip {
+  position: absolute;
+  top: -40px;
+  display: none;
+  opacity: 0;
+  color: white;
+  font-size: 10px;
+  text-wrap: nowrap;
+  background-color: #000;
+  padding: 6px 10px;
+  border: 1px solid #3c3c3c;
+  border-radius: 5px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.596);
+  transition: all var(--transition-normal);
+}
+
+#messageInput {
+  width: 200px;
+  height: 100%;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  padding-left: 10px;
+  color: white;
+  transition: all var(--transition-fast);
+}
+
+#messageInput:focus ~ #sendButton svg path,
+#messageInput:valid ~ #sendButton svg path {
+  fill: #3c3c3c;
+  stroke: white;
+}
+
+#sendButton {
+  width: fit-content;
+  height: 100%;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+}
+
+#sendButton svg {
+  height: 18px;
+  transition: all var(--transition-normal);
+}
+
+#sendButton svg path {
+  transition: all var(--transition-normal);
+}
+
+#sendButton:hover svg path {
+  fill: #3c3c3c;
+  stroke: white;
+}
+
+#sendButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#sendButton:disabled:hover svg path {
+  fill: #6b7280;
+  stroke: #6b7280;
+}
