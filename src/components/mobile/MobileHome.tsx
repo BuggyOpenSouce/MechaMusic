@@ -130,7 +130,8 @@ export const MobileHome: React.FC<MobileHomeProps> = ({
                         <Pause className="w-4 h-4 text-white" />
                       )}
                     </div>
-                  ) : (
+                  )}
+                  {currentSong?.id !== song.id && (
                     <div className="absolute inset-0 bg-black bg-opacity-0 group-active:bg-opacity-40 rounded-lg flex items-center justify-center transition-all duration-200">
                       <Play className="w-4 h-4 text-white opacity-0 group-active:opacity-100 transition-all duration-200" />
                     </div>

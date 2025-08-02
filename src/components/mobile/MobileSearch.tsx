@@ -160,10 +160,9 @@ export const MobileSearch: React.FC<MobileSearchProps> = ({
             {searchResults.map((song) => (
               <button
                 key={song.id}
-                className="w-full p-3 bg-gray-800 active:bg-gray-700 rounded-lg text-sm text-left transition-colors flex items-center space-x-3"
+                onClick={() => onSongPlay(song, searchResults)}
                 className="flex items-center w-full p-3 rounded-xl bg-gray-900 active:bg-gray-800 transition-colors group"
               >
-                <Search className="w-4 h-4 text-gray-400" />
                 <div className="relative mr-3">
                   <img 
                     src={song.thumbnail} 
@@ -183,14 +182,12 @@ export const MobileSearch: React.FC<MobileSearchProps> = ({
                             <div className="w-1 h-3 bg-white animate-pulse" style={{ animationDelay: '0.2s' }} />
                           </div>
                         </div>
-                        <Pause className="w-4 h-4 text-white" />
-                        <Pause className="w-4 h-4 text-white" />
+                       ) : (
+                         <Pause className="w-4 h-4 text-white" />
+                       )}
                     </div>
-                  ) : (
-                    <div className="absolute inset-0 bg-black bg-opacity-0 group-active:bg-opacity-40 rounded-lg flex items-center justify-center transition-all duration-200">
-                      <Play className="w-4 h-4 text-white opacity-0 group-active:opacity-100 transition-all duration-200" />
-                    </div>
-                  ) : (
+                  )}
+                  {currentSong?.id !== song.id && (
                     <div className="absolute inset-0 bg-black bg-opacity-0 group-active:bg-opacity-40 rounded-lg flex items-center justify-center transition-all duration-200">
                       <Play className="w-4 h-4 text-white opacity-0 group-active:opacity-100 transition-all duration-200" />
                     </div>
@@ -203,7 +200,7 @@ export const MobileSearch: React.FC<MobileSearchProps> = ({
                   <p className="text-gray-400 text-xs truncate leading-tight">
                     {song.artist} • {formatDuration(song.duration)}
                   </p>
-                <span className="text-white">{search}</span>
+                </div>
               </button>
             ))}
           </div>
